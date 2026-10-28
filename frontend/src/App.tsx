@@ -22,7 +22,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; allowedRoles?: strin
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-slate-400 text-xs font-mono bg-[#0B0F17]">
+      <div className="min-h-screen flex items-center justify-center text-xs font-mono" style={{ backgroundColor: 'var(--bg-page)', color: 'var(--text-muted)' }}>
         Verifying cryptographic session...
       </div>
     );
@@ -43,7 +43,7 @@ export const App: React.FC = () => {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0B0F17] text-slate-100 font-sans selection:bg-indigo-500 selection:text-white">
+    <div className="min-h-screen flex flex-col font-sans selection:bg-indigo-500 selection:text-white" style={{ backgroundColor: 'var(--bg-page)', color: 'var(--text-body)' }}>
       {/* Top Navbar */}
       <Navbar onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
 
