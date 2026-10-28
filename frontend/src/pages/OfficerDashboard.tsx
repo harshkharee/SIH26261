@@ -10,7 +10,8 @@ import {
   Layers,
   FileText,
   Activity,
-  Flame
+  Flame,
+  Sparkles
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../services/api';
@@ -58,38 +59,41 @@ export const OfficerDashboard: React.FC = () => {
   const underReviewCount = applications.filter((a) => a.status === 'UNDER_REVIEW').length;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 text-left">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 text-left font-sans">
       {/* Officer Header Card */}
-      <div className="p-6 rounded-2xl glass-panel border border-trust-blue/30 bg-gradient-to-r from-trust-midnight via-slate-900 to-trust-midnight shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div className="space-y-1">
+      <div className="p-7 rounded-3xl bg-[#111827]/90 border border-white/10 shadow-2xl backdrop-blur-xl flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
+        {/* Subtle decorative glow */}
+        <div className="absolute top-0 right-0 w-80 h-80 bg-violet-600/10 rounded-full blur-[100px] pointer-events-none" />
+
+        <div className="space-y-1.5 relative z-10">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-trust-teal px-2 py-0.5 rounded bg-trust-blue/20 border border-trust-teal/30">
-              Regulatory Verification Bureau
+            <span className="text-[10px] font-bold uppercase tracking-wider text-violet-300 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20">
+              Regulatory Scrutiny Bureau
             </span>
             <span className="text-[11px] text-slate-400 font-mono">Autonomous Scrutiny Queue</span>
           </div>
-          <h2 className="text-2xl font-black text-white">{user?.name}</h2>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">{user?.name}</h2>
           <p className="text-xs text-slate-300">
             {user?.designation || 'Senior Verification Officer • AICTE National Accreditation Scrutiny Cell'}
           </p>
         </div>
 
         {/* Live Scrutiny Ticker */}
-        <div className="flex items-center gap-4 bg-slate-950/70 px-4 py-3 rounded-xl border border-slate-800">
+        <div className="flex items-center gap-5 bg-white/[0.03] px-5 py-3 rounded-2xl border border-white/[0.08] relative z-10 shadow-sm">
           <div className="text-center">
-            <span className="font-mono text-xl font-black text-white">{underReviewCount}</span>
-            <p className="text-[10px] text-slate-400 uppercase font-semibold">Active Queue</p>
+            <span className="font-mono text-2xl font-bold text-white">{underReviewCount}</span>
+            <p className="text-[10px] text-slate-400 uppercase font-semibold tracking-wider">Active Queue</p>
           </div>
-          <div className="w-px h-8 bg-slate-800" />
+          <div className="w-px h-8 bg-white/10" />
           <div className="text-center">
-            <span className="font-mono text-xl font-black text-rose-400">{highRiskCount}</span>
-            <p className="text-[10px] text-slate-400 uppercase font-semibold">High Risk Flags</p>
+            <span className="font-mono text-2xl font-bold text-rose-400">{highRiskCount}</span>
+            <p className="text-[10px] text-slate-400 uppercase font-semibold tracking-wider">High Risk Flags</p>
           </div>
         </div>
       </div>
 
       {/* Risk Heatmap Breakdown */}
-      <div className="space-y-3">
+      <div className="space-y-3.5">
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
             <Flame className="w-4 h-4 text-rose-400" />
@@ -102,10 +106,10 @@ export const OfficerDashboard: React.FC = () => {
           {/* High Risk Tier */}
           <div
             onClick={() => setRiskFilter(riskFilter === 'HIGH' ? 'ALL' : 'HIGH')}
-            className={`p-4 rounded-xl border cursor-pointer transition ${
+            className={`p-5 rounded-2xl border cursor-pointer transition-all duration-200 ${
               riskFilter === 'HIGH'
-                ? 'bg-rose-950/50 border-rose-500 shadow-[0_0_20px_rgba(239,68,68,0.25)]'
-                : 'glass-panel border-rose-500/30 hover:border-rose-400'
+                ? 'bg-rose-950/40 border-rose-500 shadow-lg shadow-rose-500/20 ring-1 ring-rose-500/30'
+                : 'bg-[#111827]/80 border-rose-500/25 hover:border-rose-400'
             }`}
           >
             <div className="flex items-center justify-between mb-2">
@@ -123,10 +127,10 @@ export const OfficerDashboard: React.FC = () => {
           {/* Medium Risk Tier */}
           <div
             onClick={() => setRiskFilter(riskFilter === 'MEDIUM' ? 'ALL' : 'MEDIUM')}
-            className={`p-4 rounded-xl border cursor-pointer transition ${
+            className={`p-5 rounded-2xl border cursor-pointer transition-all duration-200 ${
               riskFilter === 'MEDIUM'
-                ? 'bg-amber-950/50 border-amber-500 shadow-[0_0_20px_rgba(245,158,11,0.25)]'
-                : 'glass-panel border-amber-500/30 hover:border-amber-400'
+                ? 'bg-amber-950/40 border-amber-500 shadow-lg shadow-amber-500/20 ring-1 ring-amber-500/30'
+                : 'bg-[#111827]/80 border-amber-500/25 hover:border-amber-400'
             }`}
           >
             <div className="flex items-center justify-between mb-2">
@@ -144,10 +148,10 @@ export const OfficerDashboard: React.FC = () => {
           {/* Low Risk Tier */}
           <div
             onClick={() => setRiskFilter(riskFilter === 'LOW' ? 'ALL' : 'LOW')}
-            className={`p-4 rounded-xl border cursor-pointer transition ${
+            className={`p-5 rounded-2xl border cursor-pointer transition-all duration-200 ${
               riskFilter === 'LOW'
-                ? 'bg-emerald-950/50 border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.25)]'
-                : 'glass-panel border-emerald-500/30 hover:border-emerald-400'
+                ? 'bg-emerald-950/40 border-emerald-500 shadow-lg shadow-emerald-500/20 ring-1 ring-emerald-500/30'
+                : 'bg-[#111827]/80 border-emerald-500/25 hover:border-emerald-400'
             }`}
           >
             <div className="flex items-center justify-between mb-2">
@@ -166,7 +170,7 @@ export const OfficerDashboard: React.FC = () => {
 
       {/* Filter and Search Bar */}
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-2 bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 w-full sm:w-80">
+        <div className="flex items-center gap-2 bg-white/[0.03] border border-white/[0.08] rounded-2xl px-3.5 py-2 w-full sm:w-80 shadow-sm">
           <Search className="w-4 h-4 text-slate-400" />
           <input
             type="text"
@@ -177,12 +181,12 @@ export const OfficerDashboard: React.FC = () => {
           />
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <Filter className="w-4 h-4 text-slate-400" />
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="bg-slate-900 border border-slate-800 text-xs text-white rounded-xl px-3 py-1.5 focus:outline-none focus:border-trust-teal"
+            className="bg-[#111827] border border-white/10 text-xs text-white rounded-2xl px-3.5 py-2 focus:outline-none focus:border-indigo-500 shadow-sm"
           >
             <option value="ALL">All Categories</option>
             <option value="ENGINEERING">Engineering</option>
@@ -194,7 +198,7 @@ export const OfficerDashboard: React.FC = () => {
           {riskFilter !== 'ALL' && (
             <button
               onClick={() => setRiskFilter('ALL')}
-              className="text-xs px-2.5 py-1.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white border border-slate-700 transition"
+              className="text-xs px-3 py-1.5 rounded-xl bg-white/[0.06] text-slate-300 hover:text-white border border-white/10 transition"
             >
               Clear Risk Filter ({riskFilter})
             </button>
@@ -209,9 +213,9 @@ export const OfficerDashboard: React.FC = () => {
         </div>
       ) : (
         <KanbanQueue
-          applications={applications}
-          onStatusChange={handleStatusChange}
-        />
+            applications={applications}
+            onStatusChange={handleStatusChange}
+          />
       )}
     </div>
   );

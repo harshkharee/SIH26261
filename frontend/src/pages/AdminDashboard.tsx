@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
-  PieChart, Pie, Cell, Legend, LineChart, Line
+  PieChart, Pie, Cell, Legend
 } from 'recharts';
 import {
   BarChart3,
@@ -12,11 +12,12 @@ import {
   AlertTriangle,
   ArrowUpRight,
   TrendingUp,
-  Activity
+  Activity,
+  Sparkles
 } from 'lucide-react';
 import { api } from '../services/api';
 
-const COLORS = ['#3A86FF', '#00F0FF', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
+const COLORS = ['#6366F1', '#8B5CF6', '#06B6D4', '#10B981', '#F59E0B', '#F43F5E'];
 
 export const AdminDashboard: React.FC = () => {
   const [analytics, setAnalytics] = useState<any>(null);
@@ -52,30 +53,37 @@ export const AdminDashboard: React.FC = () => {
   }));
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 text-left">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 text-left font-sans">
       {/* Executive Header */}
-      <div className="p-6 rounded-2xl glass-panel border border-trust-blue/30 bg-gradient-to-r from-trust-midnight via-slate-900 to-trust-midnight shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-trust-teal px-2 py-0.5 rounded bg-trust-blue/20 border border-trust-teal/30">
-            Executive Analytics &amp; Regulatory Oversight
-          </span>
-          <h2 className="text-2xl font-black text-white mt-1">Institutional Compliance Telemetry</h2>
-          <p className="text-xs text-slate-400">
+      <div className="p-7 rounded-3xl bg-[#111827]/90 border border-white/10 shadow-2xl backdrop-blur-xl flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
+        {/* Decorative glow */}
+        <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-600/10 rounded-full blur-[100px] pointer-events-none" />
+
+        <div className="space-y-1.5 relative z-10">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-300 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20">
+              Executive Analytics &amp; Regulatory Oversight
+            </span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Institutional Compliance Telemetry</h2>
+          <p className="text-xs text-slate-300">
             Real-time scrutiny performance, anomaly flag telemetry, and regulatory funnel velocity
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-400 font-mono">National Regulatory Dashboard • AICTE Scrutiny Cell</span>
+        <div className="flex items-center gap-2 relative z-10">
+          <span className="text-xs text-slate-400 font-mono px-3 py-1.5 rounded-xl bg-white/[0.03] border border-white/[0.08]">
+            AICTE National Scrutiny Cell
+          </span>
         </div>
       </div>
 
       {/* KPI Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="glass-panel p-5 rounded-2xl border border-slate-800">
+        <div className="p-5 rounded-2xl bg-[#111827]/80 border border-white/[0.08] shadow-sm">
           <div className="flex items-center justify-between text-slate-400 text-xs mb-2">
             <span className="font-semibold uppercase tracking-wider">Total Applications</span>
-            <Activity className="w-4 h-4 text-trust-blue" />
+            <Activity className="w-4 h-4 text-indigo-400" />
           </div>
           <span className="font-mono text-3xl font-black text-white">{metrics.totalApplications}</span>
           <p className="text-[11px] text-emerald-400 mt-2 flex items-center gap-1">
@@ -83,7 +91,7 @@ export const AdminDashboard: React.FC = () => {
           </p>
         </div>
 
-        <div className="glass-panel p-5 rounded-2xl border border-slate-800">
+        <div className="p-5 rounded-2xl bg-[#111827]/80 border border-white/[0.08] shadow-sm">
           <div className="flex items-center justify-between text-slate-400 text-xs mb-2">
             <span className="font-semibold uppercase tracking-wider">Approval Rate</span>
             <CheckCircle2 className="w-4 h-4 text-emerald-400" />
@@ -92,7 +100,7 @@ export const AdminDashboard: React.FC = () => {
           <p className="text-[11px] text-slate-400 mt-2">Of finalized determinations</p>
         </div>
 
-        <div className="glass-panel p-5 rounded-2xl border border-slate-800">
+        <div className="p-5 rounded-2xl bg-[#111827]/80 border border-white/[0.08] shadow-sm">
           <div className="flex items-center justify-between text-slate-400 text-xs mb-2">
             <span className="font-semibold uppercase tracking-wider">Integrity Flag Rate</span>
             <ShieldAlert className="w-4 h-4 text-rose-400" />
@@ -101,12 +109,12 @@ export const AdminDashboard: React.FC = () => {
           <p className="text-[11px] text-slate-400 mt-2">Requires officer investigation</p>
         </div>
 
-        <div className="glass-panel p-5 rounded-2xl border border-slate-800">
+        <div className="p-5 rounded-2xl bg-[#111827]/80 border border-white/[0.08] shadow-sm">
           <div className="flex items-center justify-between text-slate-400 text-xs mb-2">
             <span className="font-semibold uppercase tracking-wider">Avg Processing Time</span>
-            <Clock className="w-4 h-4 text-trust-teal" />
+            <Clock className="w-4 h-4 text-cyan-400" />
           </div>
-          <span className="font-mono text-3xl font-black text-trust-teal">{metrics.avgProcessingTime}</span>
+          <span className="font-mono text-3xl font-black text-cyan-400">{metrics.avgProcessingTime}</span>
           <p className="text-[11px] text-emerald-400 mt-2 flex items-center gap-1">
             <TrendingUp className="w-3.5 h-3.5" /> Down from 14 days (manual)
           </p>
@@ -116,10 +124,10 @@ export const AdminDashboard: React.FC = () => {
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Monthly Funnel Chart */}
-        <div className="lg:col-span-8 glass-panel p-6 rounded-2xl border border-slate-800 bg-trust-midnight/70 space-y-4">
+        <div className="lg:col-span-8 p-6 rounded-3xl bg-[#111827]/85 border border-white/[0.08] space-y-4 shadow-sm">
           <div className="flex items-center justify-between">
             <h4 className="text-sm font-bold text-white flex items-center gap-2">
-              <BarChart3 className="w-4 h-4 text-trust-teal" />
+              <BarChart3 className="w-4 h-4 text-indigo-400" />
               Application Scrutiny Funnel Velocity (Monthly)
             </h4>
             <span className="text-[11px] text-slate-400 font-mono">Submitted vs Verified vs Approved</span>
@@ -131,11 +139,11 @@ export const AdminDashboard: React.FC = () => {
                 <XAxis dataKey="month" stroke="#64748B" fontSize={11} />
                 <YAxis stroke="#64748B" fontSize={11} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#0B132B', borderColor: '#1E293B', borderRadius: '12px', fontSize: '11px' }}
+                  contentStyle={{ backgroundColor: '#111827', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '14px', fontSize: '11px', color: '#fff' }}
                 />
                 <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
-                <Bar dataKey="submitted" name="Submissions" fill="#3A86FF" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="verified" name="AI Verified" fill="#00F0FF" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="submitted" name="Submissions" fill="#6366F1" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="verified" name="AI Verified" fill="#8B5CF6" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="approved" name="Sanctioned" fill="#10B981" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -143,7 +151,7 @@ export const AdminDashboard: React.FC = () => {
         </div>
 
         {/* Anomaly Flags Distribution Pie */}
-        <div className="lg:col-span-4 glass-panel p-6 rounded-2xl border border-slate-800 bg-trust-midnight/70 space-y-4 flex flex-col justify-between">
+        <div className="lg:col-span-4 p-6 rounded-3xl bg-[#111827]/85 border border-white/[0.08] space-y-4 flex flex-col justify-between shadow-sm">
           <div className="flex items-center justify-between">
             <h4 className="text-sm font-bold text-white flex items-center gap-2">
               <ShieldAlert className="w-4 h-4 text-rose-400" />
@@ -168,14 +176,14 @@ export const AdminDashboard: React.FC = () => {
                   ))}
                 </Pie>
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#0B132B', borderColor: '#1E293B', borderRadius: '12px', fontSize: '11px' }}
+                  contentStyle={{ backgroundColor: '#111827', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '14px', fontSize: '11px', color: '#fff' }}
                 />
                 <Legend wrapperStyle={{ fontSize: '10px' }} />
               </PieChart>
             </ResponsiveContainer>
           </div>
 
-          <p className="text-[11px] text-slate-400 text-center">
+          <p className="text-[11px] text-slate-400 text-center font-normal">
             Detected via OpenCV ELA, cryptographic SHA-256 match, and date timeline heuristics.
           </p>
         </div>
@@ -184,7 +192,7 @@ export const AdminDashboard: React.FC = () => {
       {/* Bottom Grid: Top Failing Rules & Risk Stratification */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Top Failing Regulatory Checks */}
-        <div className="lg:col-span-8 glass-panel p-6 rounded-2xl border border-slate-800 bg-trust-midnight/70 space-y-4">
+        <div className="lg:col-span-8 p-6 rounded-3xl bg-[#111827]/85 border border-white/[0.08] space-y-4 shadow-sm">
           <div className="flex items-center justify-between">
             <h4 className="text-sm font-bold text-white flex items-center gap-2">
               <Scale className="w-4 h-4 text-amber-400" />
@@ -199,7 +207,7 @@ export const AdminDashboard: React.FC = () => {
                 <XAxis type="number" stroke="#64748B" fontSize={11} />
                 <YAxis dataKey="rule" type="category" stroke="#94A3B8" fontSize={11} width={130} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#0B132B', borderColor: '#1E293B', borderRadius: '12px', fontSize: '11px' }}
+                  contentStyle={{ backgroundColor: '#111827', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '14px', fontSize: '11px', color: '#fff' }}
                 />
                 <Bar dataKey="count" name="Failure Incidents" fill="#F59E0B" radius={[0, 4, 4, 0]} />
               </BarChart>
@@ -208,14 +216,14 @@ export const AdminDashboard: React.FC = () => {
         </div>
 
         {/* Risk Stratification Breakdown */}
-        <div className="lg:col-span-4 glass-panel p-6 rounded-2xl border border-slate-800 bg-trust-midnight/70 space-y-4">
+        <div className="lg:col-span-4 p-6 rounded-3xl bg-[#111827]/85 border border-white/[0.08] space-y-4 shadow-sm">
           <h4 className="text-sm font-bold text-white flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 text-trust-blue" />
+            <AlertTriangle className="w-4 h-4 text-indigo-400" />
             Institutional Risk Stratification
           </h4>
 
           <div className="space-y-3 pt-2">
-            <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between">
+            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-between">
               <div>
                 <span className="text-xs font-bold text-rose-400">High Risk Tier (&le;60%)</span>
                 <p className="text-[10px] text-slate-400">Severe tampering or duplicate flags</p>
@@ -223,7 +231,7 @@ export const AdminDashboard: React.FC = () => {
               <span className="font-mono text-xl font-black text-rose-400">{metrics.highRiskCount}</span>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between">
+            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-between">
               <div>
                 <span className="text-xs font-bold text-amber-400">Moderate Risk Tier (61-85%)</span>
                 <p className="text-[10px] text-slate-400">Expired dates or minor mismatches</p>
@@ -231,7 +239,7 @@ export const AdminDashboard: React.FC = () => {
               <span className="font-mono text-xl font-black text-amber-400">{metrics.mediumRiskCount}</span>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between">
+            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-between">
               <div>
                 <span className="text-xs font-bold text-emerald-400">Compliant Tier (&gt;85%)</span>
                 <p className="text-[10px] text-slate-400">Full QR authentication &amp; clear rules</p>

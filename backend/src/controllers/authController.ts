@@ -158,3 +158,122 @@ export async function me(req: AuthenticatedRequest, res: Response) {
     res.status(500).json({ error: error.message || 'Internal server error' });
   }
 }
+
+export async function register(req: Request, res: Response) {
+  try {
+    const { name, email, password, role = 'APPLICANT', designation, institutionId, newInstitutionName, institutionCode, institutionState } = req.body;
+
+    if (!name || !email || !password) {
+      res.status(400).json({ error: 'Name, email, and password are required' });
+      return;
+    }
+
+    if (password.length < 6) {
+      res.status(400).json({ error: 'Password must be at least 6 characters' });
+      return;
+    }
+
+    // Check if user already exists
+    const existingUser = await prisma.user.findUnique({
+      where: { email: email.toLowerCase().trim() }
+    });
+
+    if (existingUser) {
+      res.status(400).json({ error: 'An account with this email already exists' });
+      return;
+    }
+
+    const assignedRole = ['APPLICANT', 'OFFICER', 'ADMIN'].includes(role) ? role : 'APPLICANT';
+    let targetInstitutionId = institutionId || null;
+
+    // If new institution is provided by applicant
+    if (!targetInstitutionId && newInstitutionName && newInstitutionName.trim()) {
+      const code = institutionCode || `INST-${Date.now().toString().slice(-6)}`;
+      const newInst = await prisma.institution.create({
+        data: {
+          name: newInstitutionName.trim(),
+          code: code.trim().toUpperCase(),
+          type: 'COLLEGE',
+          state: institutionState || 'National',
+          address: 'Campus Main Gate, Institutional Area',
+          contactEmail: email.toLowerCase().trim(),
+          contactPhone: '+91-9876543210',
+          establishedYear: new Date().getFullYear(),
+          accreditedStatus: 'Affiliated'
+        }
+      });
+      targetInstitutionId = newInst.id;
+    }
+
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    const newUser = await prisma.user.create({
+      data: {
+        name: name.trim(),
+        email: email.toLowerCase().trim(),
+        password: passwordHash,
+        role: assignedRole,
+        designation: designation || (assignedRole === 'APPLICANT' ? 'Authorized Representative' : 'Scrutiny Officer'),
+        institutionId: targetInstitutionId
+      },
+      include: {
+        institution: true
+      }
+    });
+
+    const token = jwt.sign(
+      {
+        id: newUser.id,
+        email: newUser.email,
+        role: newUser.role,
+        name: newUser.name,
+        institutionId: newUser.institutionId
+      },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    // Audit log
+    await prisma.auditLog.create({
+      data: {
+        userId: newUser.id,
+        action: 'USER_REGISTER',
+        details: `New account registered for ${newUser.name} as ${newUser.role}.`,
+        ipAddress: req.ip || '127.0.0.1'
+      }
+    });
+
+    res.status(201).json({
+      token,
+      user: {
+        id: newUser.id,
+        email: newUser.email,
+        name: newUser.name,
+        role: newUser.role,
+        designation: newUser.designation,
+        institutionId: newUser.institutionId,
+        institution: newUser.institution
+      }
+    });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message || 'Failed to register account' });
+  }
+}
+
+export async function getInstitutionsPublic(_req: Request, res: Response) {
+  try {
+    const institutions = await prisma.institution.findMany({
+      orderBy: { name: 'asc' },
+      select: {
+        id: true,
+        name: true,
+        code: true,
+        type: true,
+        state: true
+      }
+    });
+    res.json({ institutions });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message || 'Failed to fetch institutions' });
+  }
+}

@@ -36,7 +36,7 @@ export const AiScanStepper: React.FC<AiScanStepperProps> = ({ applicationId, onC
 
   useEffect(() => {
     let sse: EventSource | null = null;
-    let fallbackTimer: NodeJS.Timeout | null = null;
+    let fallbackTimer: ReturnType<typeof setTimeout> | null = null;
 
     if (isLive) {
       try {

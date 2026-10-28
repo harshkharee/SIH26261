@@ -124,10 +124,14 @@ export async function createApplication(req: AuthenticatedRequest, res: Response
     const user = req.user!;
     const { programCategory, academicYear, institutionId } = req.body;
 
-    const targetInstId = institutionId || user.institutionId;
+    let targetInstId = institutionId || user.institutionId;
     if (!targetInstId) {
-      res.status(400).json({ error: 'Institution ID required' });
-      return;
+      const firstInst = await prisma.institution.findFirst();
+      if (!firstInst) {
+        res.status(400).json({ error: 'Institution ID required' });
+        return;
+      }
+      targetInstId = firstInst.id;
     }
 
     // Generate unique Application ID

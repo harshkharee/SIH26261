@@ -26,6 +26,30 @@ export const api = {
     return handleResponse(res);
   },
 
+  async register(data: {
+    name: string;
+    email: string;
+    password: string;
+    role?: string;
+    designation?: string;
+    institutionId?: string;
+    newInstitutionName?: string;
+    institutionCode?: string;
+    institutionState?: string;
+  }): Promise<{ token: string; user: User }> {
+    const res = await fetch(`${API_BASE}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    return handleResponse(res);
+  },
+
+  async getPublicInstitutions(): Promise<{ institutions: any[] }> {
+    const res = await fetch(`${API_BASE}/auth/institutions`);
+    return handleResponse(res);
+  },
+
   async demoLogin(role: 'APPLICANT' | 'OFFICER' | 'ADMIN'): Promise<{ token: string; user: User }> {
     const res = await fetch(`${API_BASE}/auth/demo-login`, {
       method: 'POST',

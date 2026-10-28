@@ -41,7 +41,9 @@ const upload = multer({
 
 // AUTH
 router.post('/auth/login', authController.login);
+router.post('/auth/register', authController.register);
 router.post('/auth/demo-login', authController.demoLogin);
+router.get('/auth/institutions', authController.getInstitutionsPublic);
 router.get('/auth/me', authenticateToken, authController.me);
 
 // INSTITUTIONS

@@ -22,7 +22,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; allowedRoles?: strin
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-slate-400 text-xs font-mono bg-[#070D1E]">
+      <div className="min-h-screen flex items-center justify-center text-slate-400 text-xs font-mono bg-[#0B0F17]">
         Verifying cryptographic session...
       </div>
     );
@@ -43,7 +43,7 @@ export const App: React.FC = () => {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#070D1E] text-slate-100 font-sans selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#0B0F17] text-slate-100 font-sans selection:bg-indigo-500 selection:text-white">
       {/* Top Navbar */}
       <Navbar onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
 
@@ -58,6 +58,7 @@ export const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<LoginPage initialMode="register" />} />
 
           {/* Applicant Route */}
           <Route
