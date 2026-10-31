@@ -52,7 +52,7 @@ export async function generateApplicationPdf(applicationId: string, res: Respons
   doc
     .fillColor('#FFFFFF')
     .fontSize(16)
-    .text('STATUTORY COMPLIANCE & AI AUDIT REPORT', 55, 68, { bold: true });
+    .text('STATUTORY COMPLIANCE & AI AUDIT REPORT', 55, 68);
 
   doc
     .fillColor('#94A3B8')
@@ -73,7 +73,7 @@ export async function generateApplicationPdf(applicationId: string, res: Respons
   doc
     .fillColor('#0F172A')
     .fontSize(12)
-    .text(app.applicationNumber, 55, startY + 24, { bold: true });
+    .text(app.applicationNumber, 55, startY + 24);
 
   doc
     .fillColor('#64748B')
@@ -91,7 +91,7 @@ export async function generateApplicationPdf(applicationId: string, res: Respons
   doc
     .fillColor(app.overallTrustScore >= 80 ? '#10B981' : app.overallTrustScore >= 50 ? '#F59E0B' : '#EF4444')
     .fontSize(18)
-    .text(`${app.overallTrustScore}/100`, 430, startY + 24, { bold: true });
+    .text(`${app.overallTrustScore}/100`, 430, startY + 24);
 
   doc
     .fillColor('#64748B')
@@ -103,7 +103,7 @@ export async function generateApplicationPdf(applicationId: string, res: Respons
   doc
     .fillColor('#1E293B')
     .fontSize(12)
-    .text('Executive AI Finding & Evidence Summary', 40, 220, { bold: true });
+    .text('Executive AI Finding & Evidence Summary', 40, 220);
 
   doc
     .rect(40, 238, 515, 45)
@@ -120,7 +120,7 @@ export async function generateApplicationPdf(applicationId: string, res: Respons
   doc
     .fillColor('#1E293B')
     .fontSize(12)
-    .text('Uploaded Document Scrutiny Inventory', 40, currentY, { bold: true });
+    .text('Uploaded Document Scrutiny Inventory', 40, currentY);
 
   currentY += 20;
   doc
@@ -164,7 +164,7 @@ export async function generateApplicationPdf(applicationId: string, res: Respons
   doc
     .fillColor('#1E293B')
     .fontSize(12)
-    .text('Integrity Anomaly Flags & Forensic Findings', 40, currentY, { bold: true });
+    .text('Integrity Anomaly Flags & Forensic Findings', 40, currentY);
 
   currentY += 20;
   if (app.anomalyFlags.length === 0) {
@@ -183,7 +183,7 @@ export async function generateApplicationPdf(applicationId: string, res: Respons
       doc
         .fillColor('#B91C1C')
         .fontSize(9)
-        .text(`[${flag.severity}] ${flag.title} (Confidence: ${(flag.confidenceScore * 100).toFixed(0)}%)`, 50, currentY + 6, { bold: true });
+        .text(`[${flag.severity}] ${flag.title} (Confidence: ${(flag.confidenceScore * 100).toFixed(0)}%)`, 50, currentY + 6);
 
       doc
         .fillColor('#7F1D1D')
@@ -204,7 +204,7 @@ export async function generateApplicationPdf(applicationId: string, res: Respons
   doc
     .fillColor('#166534')
     .fontSize(10)
-    .text('OFFICER REGULATORY DETERMINATION', 50, currentY + 8, { bold: true });
+    .text('OFFICER REGULATORY DETERMINATION', 50, currentY + 8);
 
   const latestDecision = app.reviewDecisions[0];
   if (latestDecision) {
